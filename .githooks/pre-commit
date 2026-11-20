@@ -1,0 +1,14 @@
+#!/bin/sh
+# Reject staged tracked files containing TODO or FIXME markers.
+if git diff --cached --name-only --diff-filter=ACM | while IFS= read -r file; do
+  [ -f "$file" ] || continue
+  if git diff --cached -- "$file" | grep -E '^\+.*(TODO|FIXME)' >/dev/null; then
+    echo "Blocked: staged additions contain TODO or FIXME in $file"
+    exit 1
+  fi
+done
+then
+  :
+else
+  exit 1
+fi
