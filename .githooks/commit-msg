@@ -1,0 +1,13 @@
+#!/bin/sh
+msg=$(cat "$1")
+if [ ${#msg} -lt 11 ]; then
+  echo "Blocked: commit message must be longer than 10 characters."
+  exit 1
+fi
+case "$msg" in
+  feat:*|fix:*|docs:*|refactor:*|chore:*)
+    exit 0 ;;
+  *)
+    echo "Blocked: message must begin with feat:, fix:, docs:, refactor:, or chore:."
+    exit 1 ;;
+esac
